@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whisper_transcriber"
+version = "0.1.0"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+description = "A simple and scalable module for audio transcription using OpenAI's Whisper"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "openai-whisper>=20240124",
+    "torch>=2.2.0",
+    "numpy>=1.24.0",
+    "soundfile>=0.12.1",
+    "ffmpeg-python>=0.2.0"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+whisper-transcribe = "whisper_transcriber.transcriber:main"
