@@ -17,7 +17,6 @@ class OutputHandler:
             output_dir (str, optional): Directory to save output files. Defaults to "transcriptions".
         """
         self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(parents=True, exist_ok=True)
 
     @staticmethod
     def _format_timestamp(seconds: float, vtt: bool = False) -> str:
@@ -197,6 +196,8 @@ class OutputHandler:
         Returns:
             str: Path to the saved output file.
         """
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+
         output_path = self.output_dir / f"{Path(filename).stem}.{format}"
         formatted_output = self.format_output(result, format)
         
