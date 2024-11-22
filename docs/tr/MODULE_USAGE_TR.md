@@ -16,8 +16,7 @@ from whisper_transcriber import WhisperTranscriber, TranscriptionConfig
 
 # Yapılandırma oluştur
 config = TranscriptionConfig(
-    model='base',           # Kullanılacak Whisper modeli
-    language='tr',          # Opsiyonel: dili belirle
+    model_name='base',           # Kullanılacak Whisper modeli
     verbose=False           # Ayrıntılı çıktıyı devre dışı bırak
 )
 
@@ -38,13 +37,13 @@ print(result.segments)  # Detaylı segment bilgileri
 ```python
 config = TranscriptionConfig(
     # Model Seçimi
-    model='medium',         # Seçenekler: tiny, base, small, medium, large
+    model_name='medium',         # Seçenekler: tiny, base, small, medium, large
     task='transcribe',      # 'transcribe' veya 'translate'
     
     # Kalite Kontrol
     temperature=[0.0, 0.2],  # Birden fazla örnekleme sıcaklığı
     compression_ratio_threshold=2.4,
-    log_prob_threshold=-1.0,
+    logprob_threshold=-1.0,
     no_speech_threshold=0.6,
     
     # Segment Filtreleme
@@ -79,7 +78,7 @@ config = TranscriptionConfig(language=None)  # Otomatik algıla
 ```python
 config = TranscriptionConfig(
     task='translate',       # İngilizceye çevir
-    model='medium'          # Çeviri için önerilen model
+    model_name='medium'          # Çeviri için önerilen model
 )
 ```
 
