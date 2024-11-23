@@ -23,39 +23,14 @@ A powerful, flexible Python module for audio transcription leveraging OpenAI's W
   - Configurable model sizes
   - GPU and CPU support
 
-## 🚀 Quick Start
-
-### Installation
-
-```bash
-# Install from PyPI
-pip install whisper-transcriber
-
-# Or install from local directory
-pip install .
-```
-
-### Basic Usage
-
-```bash
-# Transcribe an audio file
-python -m whisper_transcriber audio.mp3
-
-# Translate audio to English
-python -m whisper_transcriber audio.mp3 --task translate
-```
-
+  
 ## 📚 Documentation
-
-### 🇺🇸 English
-- [CLI Usage Guide](docs/en/README.md)
-- [Module Usage Guide](docs/en/MODULE_USAGE_EN.md)
-- [Feature Specifications](docs/en/FEATURES_EN.md)
-
-### 🇹🇷 Türkçe
-- [Komut Satırı Kullanım Kılavuzu](docs/tr/README.md)
-- [Modül Kullanım Kılavuzu](docs/tr/MODULE_USAGE_TR.md)
-- [Özellik Spesifikasyonları](docs/tr/FEATURES_TR.md)
+| 🇺🇸 English| 🇹🇷 Türkçe |
+|-------------------------------------------------|-------------|
+| [Installation Guide](docs/en/README.md)| [Installation Guide](docs/en/README.md)|
+| [CLI Usage Guide](docs/en/README.md)|[Komut Satırı Kullanım Kılavuzu](docs/tr/README.md) |
+| [Module Usage Guide](docs/en/MODULE_USAGE_EN.md)| [Modül Kullanım Kılavuzu](docs/tr/MODULE_USAGE_TR.md) |
+| [Feature Specifications](docs/en/FEATURES_EN.md)| [Özellik Spesifikasyonları](docs/tr/FEATURES_TR.md)|
 
 ## 🚀 Demo Scripts
 
@@ -69,16 +44,6 @@ The `demo_scripts` directory offers comprehensive scenarios demonstrating the mo
 | 4: Advanced Configuration | Detailed transcription control | Quality filtering, segment management |
 | 5: Error Handling | Robust error management | Fallback strategies, comprehensive logging |
 | 6: Advanced Batch Processing | Large-scale transcription | Parallel processing, detailed reporting |
-
-### Running Demo Scripts
-
-```bash
-# Navigate to demo scripts
-cd demo_scripts
-
-# Run a specific scenario
-python scenario_1_basic_transcription.py
-```
 
 ## 📋 System Requirements
 
