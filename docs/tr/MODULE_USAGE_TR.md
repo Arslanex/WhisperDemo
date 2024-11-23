@@ -12,97 +12,95 @@ pip install whisper-transcriber
 
 ### Basit Transkripsiyon
 ```python
-from whisper_transcriber import WhisperTranscriber, TranscriptionConfig
+from whisper_transcriber.transcriber import WhisperTranscriber
+from whisper_transcriber.config import TranscriptionConfig
 
 # Yapılandırma oluştur
-config = TranscriptionConfig(
+transcription_config = TranscriptionConfig(
     model_name='base',           # Kullanılacak Whisper modeli
-    verbose=False           # Ayrıntılı çıktıyı devre dışı bırak
+    verbose=False                # Ayrıntılı çıktıyı devre dışı bırak
 )
 
 # Transkriber'ı başlat
-transcriber = WhisperTranscriber(config)
+whisper_transcriber = WhisperTranscriber(transcription_config)
 
 # Ses dosyasını dökümleştir
-result = transcriber.transcribe('path/to/audio.mp3')
+transcription_result = whisper_transcriber.transcribe('path/to/audio.mp3')
 
 # Transkripsiyon sonuçlarını al
-print(result.text)  # Tam transkripsiyon metni
-print(result.segments)  # Detaylı segment bilgileri
+print(transcription_result['text'])  # Tam transkripsiyon metni
+print(transcription_result['segments'])  # Detaylı segment bilgileri
 ```
 
 ## Gelişmiş Yapılandırma
 
 ### Detaylı Transkripsiyon Seçenekleri
 ```python
-config = TranscriptionConfig(
+advanced_config = TranscriptionConfig(
     # Model Seçimi
     model_name='medium',         # Seçenekler: tiny, base, small, medium, large
-    task='transcribe',      # 'transcribe' veya 'translate'
+    task='transcribe',           # 'transcribe' veya 'translate'
+    language='tr',               # Dil kodu (isteğe bağlı)
     
     # Kalite Kontrol
-    temperature=[0.0, 0.2],  # Birden fazla örnekleme sıcaklığı
+    temperature=(0.0, 0.2),      # Birden fazla örnekleme sıcaklığı
     compression_ratio_threshold=2.4,
     logprob_threshold=-1.0,
     no_speech_threshold=0.6,
     
     # Segment Filtreleme
-    max_segment_length=50,  # Segment başına maksimum karakter
-    min_segment_length=10,  # Segment başına minimum karakter
+    max_segment_length=50,       # Segment başına maksimum karakter
+    min_segment_length=10,       # Segment başına minimum karakter
     
-    # Çıktı Formatlandırma
-    word_timestamps=True,   # Kelime düzeyinde zamanlama
-    verbose=True            # Detaylı günlük kaydı
+    # Çıktı Yapılandırması
+    output_format='srt',         # Çıktı formatı: txt, json, srt, vtt
+    output_dir='./transcriptions' # Çıktı dizini
 )
+
+# Gelişmiş transkripsiyon
+advanced_transcriber = WhisperTranscriber(advanced_config)
+advanced_result = advanced_transcriber.transcribe('path/to/long_audio.mp3')
 ```
 
-### Çıktı İşleme
+## Toplu İşlem
+
+### Dizindeki Tüm Ses Dosyalarını Dökümleştirme
 ```python
-# Birden fazla çıktı formatı oluştur
-transcriber.generate_outputs(
-    result, 
-    output_dir='./transkriptler',
-    formats=['srt', 'txt', 'json']
+# Tüm ses dosyalarını dökümleştir
+batch_config = TranscriptionConfig(
+    model_name='small',
+    task='transcribe'
 )
+
+batch_transcriber = WhisperTranscriber(batch_config)
+batch_results = batch_transcriber.process_directory('/path/to/audio/directory')
+
+# Sonuçları işle
+for audio_path, output_path in batch_results.items():
+    print(f"Audio: {audio_path}, Transcription: {output_path}")
 ```
 
-## Gelişmiş Özellikler
+## Hata Yakalama ve Günlükleme
 
-### Dil Algılama
-```python
-# Otomatik dil algılama
-config = TranscriptionConfig(language=None)  # Otomatik algıla
-```
-
-### Çeviri Modu
-```python
-config = TranscriptionConfig(
-    task='translate',       # İngilizceye çevir
-    model_name='medium'          # Çeviri için önerilen model
-)
-```
-
-## Hata Yönetimi
+### Hata İşleme Örneği
 ```python
 try:
-    result = transcriber.transcribe('audio.mp3')
-except Exception as e:
-    print(f"Transkripsiyon hatası: {e}")
+    transcription_result = whisper_transcriber.transcribe('problematic_audio.mp3')
+except FileNotFoundError:
+    print("Ses dosyası bulunamadı")
+except ValueError as e:
+    print(f"Dökümleştirme hatası: {e}")
 ```
 
-## Performans Değerlendirmesi
-- Büyük modeller daha iyi doğruluk sağlar ancak daha fazla hesaplama kaynağı gerektirir
-- CPU ve GPU performansı değişkenlik gösterir
-- Hızlı transkripsiyon için küçük modeller önerilir
-- Büyük modeller yüksek doğruluk gerektiren durumlar için idealdir
+## Performans İpuçları
+- Küçük modeller daha hızlı, daha az doğru
+- Büyük modeller daha yavaş, daha doğru
+- GPU kullanımı işlemi hızlandırır
+- Ses kalitesi transkripsiyon doğruluğunu etkiler
 
-## Günlük Kaydı ve Hata Ayıklama
-```python
-config = TranscriptionConfig(verbose=True)
-# Transkripsiyon sürecinin detaylı günlük kaydını etkinleştirir
-```
-
-## Notlar
-- Ses işleme için `ffmpeg`'in kurulu olduğundan emin olun
-- Bazı özellikler ek bağımlılıklar gerektirebilir
-- Performans ses kalitesi, model boyutu ve sistem kaynaklarına bağlıdır
+## Desteklenen Özellikler
+- Çoklu model desteği
+- Dil çevirisi
+- Detaylı segment filtreleme
+- Çeşitli çıktı formatları
+- GPU ve CPU desteği
